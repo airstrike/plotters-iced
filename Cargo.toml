@@ -19,7 +19,11 @@ members = [".", "examples/split-chart"]
 [dependencies]
 plotters = { version = "0.3", default-features = false }
 plotters-backend = "0.3"
-iced = { version = "0.13", features = ["canvas", "tokio", "advanced"] }
+iced = { git = "https://github.com/iced-rs/iced.git", rev = "42a2cb6d4f78343f43d6a68a28e5502d9426ed2c", features = [
+    "canvas",
+    "tokio",
+    "advanced",
+] }
 once_cell = "1"
 
 [dev-dependencies]
