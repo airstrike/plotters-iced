@@ -4,20 +4,19 @@
 // Copyright: 2022, Joylei <leingliu@gmail.com>
 // License: MIT
 
-use iced_widget::{
+use iced::advanced::{graphics::geometry, renderer, text, Layout};
+use iced::widget::{
     canvas::{Cache, Frame, Geometry},
-    core::{Layout, Size, Vector},
     text::Shaping,
 };
+use iced::{Size, Vector};
 use plotters::prelude::DrawingArea;
 
 use crate::backend::IcedChartBackend;
 use crate::Chart;
 
 /// Graphics Renderer
-pub trait Renderer:
-    iced_widget::core::Renderer + iced_widget::core::text::Renderer + iced_graphics::geometry::Renderer
-{
+pub trait Renderer: renderer::Renderer + text::Renderer + geometry::Renderer {
     /// draw a [Chart]
     fn draw_chart<Message, C>(
         &mut self,
@@ -29,7 +28,7 @@ pub trait Renderer:
         C: Chart<Message>;
 }
 
-impl crate::chart::Renderer for iced_widget::renderer::Renderer {
+impl crate::chart::Renderer for iced::Renderer {
     fn draw<F: Fn(&mut Frame)>(&self, size: Size, f: F) -> Geometry {
         let mut frame = Frame::new(self, size);
         f(&mut frame);
@@ -41,7 +40,7 @@ impl crate::chart::Renderer for iced_widget::renderer::Renderer {
     }
 }
 
-impl Renderer for iced_widget::renderer::Renderer {
+impl Renderer for iced::Renderer {
     fn draw_chart<Message, C>(
         &mut self,
         state: &C::State,
@@ -61,8 +60,8 @@ impl Renderer for iced_widget::renderer::Renderer {
             chart.draw_chart(state, root);
         });
         let translation = Vector::new(bounds.x, bounds.y);
-        iced_widget::core::Renderer::with_translation(self, translation, |renderer| {
-            iced_graphics::geometry::Renderer::draw_geometry(renderer, geometry);
+        renderer::Renderer::with_translation(self, translation, |renderer| {
+            geometry::Renderer::draw_geometry(renderer, geometry);
         });
     }
 }

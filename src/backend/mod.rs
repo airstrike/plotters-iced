@@ -6,15 +6,12 @@
 
 use std::collections::HashSet;
 
-use iced_graphics::core::text::Paragraph;
-use iced_widget::{
-    canvas,
-    core::{
-        alignment::{Horizontal, Vertical},
-        font, text, Font, Size,
-    },
-    text::Shaping,
-};
+use iced::advanced::text;
+use iced::advanced::text::Paragraph;
+use iced::alignment::{Horizontal, Vertical};
+use iced::widget::canvas;
+use iced::widget::text::Shaping;
+use iced::{font, Font, Size};
 use once_cell::unsync::Lazy;
 use plotters_backend::{
     text_anchor,
@@ -275,7 +272,7 @@ where
             text_anchor::VPos::Bottom => Vertical::Bottom,
         };
 
-        let p = B::Paragraph::with_text(iced_widget::core::text::Text {
+        let p = B::Paragraph::with_text(text::Text {
             content: text,
             bounds,
             size: self.backend.default_size(),
@@ -284,7 +281,7 @@ where
             horizontal_alignment,
             vertical_alignment,
             shaping: self.shaping,
-            wrapping: iced_widget::core::text::Wrapping::Word,
+            wrapping: text::Wrapping::Word,
         });
         let size = p.min_bounds();
         Ok((size.width as u32, size.height as u32))

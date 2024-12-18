@@ -4,8 +4,8 @@
 // Copyright: 2022, Joylei <leingliu@gmail.com>
 // License: MIT
 
-use iced_widget::canvas;
-use iced_widget::core::{Color, Point};
+use iced::widget::canvas;
+use iced::{Color, Point};
 use plotters_backend::{BackendColor, BackendCoord, BackendStyle};
 
 pub(crate) trait AndExt {

@@ -4,14 +4,10 @@
 // Copyright: 2022, Joylei <leingliu@gmail.com>
 // License: MIT
 
-use iced_widget::canvas::Cache;
-use iced_widget::core::event::Status;
-use iced_widget::core::mouse::Interaction;
-use iced_widget::core::Rectangle;
-use iced_widget::{
-    canvas::{Event, Frame, Geometry},
-    core::{mouse::Cursor, Size},
-};
+use iced::event::Status;
+use iced::mouse::{Cursor, Interaction};
+use iced::widget::canvas::{Cache, Event, Frame, Geometry};
+use iced::{Rectangle, Size};
 use plotters::{chart::ChartBuilder, coord::Shift, drawing::DrawingArea};
 use plotters_backend::DrawingBackend;
 
@@ -120,9 +116,9 @@ pub trait Chart<Message> {
         self.build_chart(state, builder);
     }
 
-    /// draw on [`iced_widget::canvas::Canvas`]
+    /// draw on [`iced::widget::canvas::Canvas`]
     ///
-    /// override this method if you want to use [`iced_widget::canvas::Cache`]
+    /// override this method if you want to use [`iced::widget::canvas::Cache`]
     ///
     /// ## Example
     /// ```rust,ignore
