@@ -4,19 +4,13 @@
 // Copyright: 2022, Joylei <leingliu@gmail.com>
 // License: MIT
 
-use core::marker::PhantomData;
+use std::marker::PhantomData;
 
-use iced_widget::{
-    canvas::Event,
-    core::{
-        event,
-        mouse::Cursor,
-        renderer::Style,
-        widget::{tree, Tree},
-        Element, Layout, Length, Rectangle, Shell, Size, Widget,
-    },
-    text::Shaping,
-};
+use iced::advanced::widget::{tree, Tree};
+use iced::advanced::{layout, mouse, renderer, Clipboard, Layout, Shell, Widget};
+use iced::widget::canvas;
+use iced::widget::text::Shaping;
+use iced::{mouse::Cursor, Element, Length, Rectangle, Size};
 
 use crate::renderer::Renderer;
 
@@ -92,10 +86,10 @@ where
         &self,
         _tree: &mut Tree,
         _renderer: &Renderer,
-        limits: &iced_widget::core::layout::Limits,
-    ) -> iced_widget::core::layout::Node {
+        limits: &layout::Limits,
+    ) -> layout::Node {
         let size = limits.resolve(self.width, self.height, Size::ZERO);
-        iced_widget::core::layout::Node::new(size)
+        layout::Node::new(size)
     }
 
     #[inline]
@@ -104,9 +98,9 @@ where
         tree: &Tree,
         renderer: &mut Renderer,
         _theme: &Theme,
-        _style: &Style,
+        _defaults: &renderer::Style,
         layout: Layout<'_>,
-        _cursor_position: Cursor,
+        _cursor: Cursor,
         _viewport: &Rectangle,
     ) {
         let state = tree.state.downcast_ref::<C::State>();
@@ -117,20 +111,18 @@ where
     fn on_event(
         &mut self,
         tree: &mut Tree,
-        event: iced_widget::core::Event,
+        event: iced::Event,
         layout: Layout<'_>,
         cursor: Cursor,
         _renderer: &Renderer,
-        _clipboard: &mut dyn iced_widget::core::Clipboard,
+        _clipboard: &mut dyn Clipboard,
         shell: &mut Shell<'_, Message>,
         _rectangle: &Rectangle,
-    ) -> event::Status {
+    ) -> iced::event::Status {
         let bounds = layout.bounds();
         let canvas_event = match event {
-            iced_widget::core::Event::Mouse(mouse_event) => Some(Event::Mouse(mouse_event)),
-            iced_widget::core::Event::Keyboard(keyboard_event) => {
-                Some(Event::Keyboard(keyboard_event))
-            }
+            iced::Event::Mouse(mouse_event) => Some(canvas::Event::Mouse(mouse_event)),
+            iced::Event::Keyboard(keyboard_event) => Some(canvas::Event::Keyboard(keyboard_event)),
             _ => None,
         };
         if let Some(canvas_event) = canvas_event {
@@ -143,7 +135,7 @@ where
             }
             return event_status;
         }
-        event::Status::Ignored
+        iced::event::Status::Ignored
     }
 
     fn mouse_interaction(
@@ -153,7 +145,7 @@ where
         cursor: Cursor,
         _viewport: &Rectangle,
         _renderer: &Renderer,
-    ) -> iced_widget::core::mouse::Interaction {
+    ) -> mouse::Interaction {
         let state = tree.state.downcast_ref::<C::State>();
         let bounds = layout.bounds();
         self.chart.mouse_interaction(state, bounds, cursor)
