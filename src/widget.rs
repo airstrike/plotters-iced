@@ -23,7 +23,7 @@ use crate::renderer::Renderer;
 use super::Chart;
 
 /// Chart container, turns [`Chart`]s to [`Widget`]s
-pub struct ChartWidget<'a, Message, Theme, Renderer, C>
+pub struct ChartWidget<'a, Message, C>
 where
     C: Chart<Message>,
 {
@@ -31,10 +31,10 @@ where
     width: Length,
     height: Length,
     shaping: Shaping,
-    _marker: PhantomData<&'a (Renderer, Theme, Message)>,
+    _marker: PhantomData<&'a Message>,
 }
 
-impl<'a, Message, Theme, Renderer, C> ChartWidget<'a, Message, Theme, Renderer, C>
+impl<'a, Message, C> ChartWidget<'a, Message, C>
 where
     C: Chart<Message> + 'a,
 {
@@ -69,7 +69,7 @@ where
 }
 
 impl<'a, Message, Theme, Renderer, C> Widget<Message, Theme, Renderer>
-    for ChartWidget<'a, Message, Theme, Renderer, C>
+    for ChartWidget<'a, Message, C>
 where
     C: Chart<Message>,
     Renderer: self::Renderer,
@@ -160,14 +160,14 @@ where
     }
 }
 
-impl<'a, Message, Theme, Renderer, C> From<ChartWidget<'a, Message, Theme, Renderer, C>>
+impl<'a, Message, Theme, Renderer, C> From<ChartWidget<'a, Message, C>>
     for Element<'a, Message, Theme, Renderer>
 where
     Message: 'a,
     C: Chart<Message> + 'a,
     Renderer: self::Renderer,
 {
-    fn from(widget: ChartWidget<'a, Message, Theme, Renderer, C>) -> Self {
+    fn from(widget: ChartWidget<'a, Message, C>) -> Self {
         Element::new(widget)
     }
 }
