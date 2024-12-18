@@ -8,22 +8,6 @@ use iced::widget::canvas;
 use iced::{Color, Point};
 use plotters_backend::{BackendColor, BackendCoord, BackendStyle};
 
-pub(crate) trait AndExt {
-    fn and<F: Fn(Self) -> Self>(self, f: F) -> Self
-    where
-        Self: Sized;
-}
-
-impl<T> AndExt for T {
-    #[inline(always)]
-    fn and<F: Fn(Self) -> Self>(self, f: F) -> Self
-    where
-        Self: Sized,
-    {
-        f(self)
-    }
-}
-
 #[inline]
 pub(crate) fn cvt_color(color: &BackendColor) -> Color {
     let ((r, g, b), a) = (color.rgb, color.alpha);
