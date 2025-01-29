@@ -17,7 +17,7 @@ authors = ["Joylei <leingliu@gmail.com>"]
 members = [".", "examples/split-chart"]
 
 [workspace.dependencies]
-iced = { git = "https://github.com/iced-rs/iced.git", rev = "42a2cb6d4f78343f43d6a68a28e5502d9426ed2c", features = [
+iced = { git = "https://github.com/airstrike/iced.git", branch = "latest", features = [
     "canvas",
     "tokio",
     "advanced",
