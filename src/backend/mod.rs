@@ -225,8 +225,8 @@ where
             size: (style.size() as f32).into(),
             line_height: Default::default(),
             font,
-            horizontal_alignment,
-            vertical_alignment,
+            align_x: horizontal_alignment.into(),
+            align_y: vertical_alignment.into(),
             shaping: self.shaping,
         };
         //TODO: fix rotation until text rotation is supported by Iced
@@ -278,8 +278,8 @@ where
             size: self.backend.default_size(),
             line_height: Default::default(),
             font,
-            horizontal_alignment,
-            vertical_alignment,
+            align_x: horizontal_alignment.into(),
+            align_y: vertical_alignment.into(),
             shaping: self.shaping,
             wrapping: text::Wrapping::Word,
         });

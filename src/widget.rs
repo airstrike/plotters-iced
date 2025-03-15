@@ -108,21 +108,21 @@ where
     }
 
     #[inline]
-    fn on_event(
+    fn update(
         &mut self,
         tree: &mut Tree,
-        event: iced::Event,
+        event: &iced::Event,
         layout: Layout<'_>,
         cursor: Cursor,
         _renderer: &Renderer,
         _clipboard: &mut dyn Clipboard,
         shell: &mut Shell<'_, Message>,
-        _rectangle: &Rectangle,
-    ) -> iced::event::Status {
+        _viewport: &Rectangle,
+    ) {
         let bounds = layout.bounds();
         let canvas_event = match event {
-            iced::Event::Mouse(mouse_event) => Some(canvas::Event::Mouse(mouse_event)),
-            iced::Event::Keyboard(keyboard_event) => Some(canvas::Event::Keyboard(keyboard_event)),
+            iced::Event::Mouse(mouse_event) => Some(canvas::Event::Mouse(*mouse_event)),
+            iced::Event::Keyboard(keyboard_event) => Some(canvas::Event::Keyboard(keyboard_event.clone())),
             _ => None,
         };
         if let Some(canvas_event) = canvas_event {
@@ -133,9 +133,11 @@ where
             if let Some(message) = message {
                 shell.publish(message);
             }
-            return event_status;
+            
+            if event_status == iced::event::Status::Captured {
+                shell.capture_event();
+            }
         }
-        iced::event::Status::Ignored
     }
 
     fn mouse_interaction(
