@@ -17,10 +17,11 @@ authors = ["Joylei <leingliu@gmail.com>"]
 members = [".", "examples/split-chart"]
 
 [workspace.dependencies]
-iced = { git = "https://github.com/airstrike/iced.git", branch = "master", features = [
+iced = { git = "https://github.com/airstrike/iced.git", branch = "master", default-features = false, features = [
     "canvas",
     "tokio",
     "advanced",
+    "wgpu",
 ] }
 
 [dependencies]
@@ -49,4 +50,3 @@ tokio = { version = "1", features = ["rt"], default-features = false }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dev-dependencies]
 sysinfo = { version = "0.30", default-features = false }
-
