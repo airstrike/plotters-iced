@@ -28,7 +28,7 @@ use rand::Rng;
 use std::time::Duration;
 use std::{collections::VecDeque, time::Instant};
 
-const TITLE_FONT_SIZE: u16 = 22;
+const TITLE_FONT_SIZE: f32 = 22.0;
 
 const FONT_BOLD: Font = Font {
     family: font::Family::Name("Noto Sans"),
@@ -37,10 +37,11 @@ const FONT_BOLD: Font = Font {
 };
 
 fn main() {
-    iced::application("Large Data Example", State::update, State::view)
+    iced::application(State::new, State::update, State::view)
+        .title("plotters-iced • Large Data Example")
         .antialiasing(true)
         .default_font(Font::with_name("Noto Sans"))
-        .run_with(State::new)
+        .run()
         .unwrap();
 }
 

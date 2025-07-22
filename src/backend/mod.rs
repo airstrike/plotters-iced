@@ -221,6 +221,7 @@ where
         let text = canvas::Text {
             content: text.to_owned(),
             position: pos,
+            max_width: self.frame.size().width,
             color: cvt_color(&style.color()),
             size: (style.size() as f32).into(),
             line_height: Default::default(),

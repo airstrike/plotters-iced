@@ -239,7 +239,8 @@ enum Message {
 }
 
 fn main() -> iced::Result {
-    iced::application("Art", State::update, State::view)
+    iced::application(State::default, State::update, State::view)
+        .title("plotters-iced • Art")
         .antialiasing(true)
         .run()
 }

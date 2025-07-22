@@ -31,7 +31,7 @@ use plotters::{coord::Shift, prelude::*};
 use plotters_backend::DrawingBackend;
 use plotters_iced::{plotters_backend, Chart, ChartWidget, DrawingArea};
 
-const TITLE_FONT_SIZE: u16 = 22;
+const TITLE_FONT_SIZE: f32 = 22.0;
 
 // antialiasing issue: https://github.com/iced-rs/iced/issues/1159
 
@@ -41,7 +41,8 @@ fn main() {
         console_log::init().expect("Initialize logger");
         std::panic::set_hook(Box::new(console_error_panic_hook::hook));
     }
-    let app = iced::application("Split Chart Example", State::update, State::view)
+    let app = iced::application(State::default, State::update, State::view)
+        .title("plotters-iced • Split Chart Example")
         .antialiasing(cfg!(not(target_arch = "wasm32")))
         .subscription(|_| window::frames().map(|_| Message::Tick));
     app.run().unwrap();
