@@ -21,7 +21,7 @@ pub struct ChartWidget<'a, Message, C>
 where
     C: Chart<Message>,
 {
-    chart: C,
+    chart: &'a C,
     width: Length,
     height: Length,
     shaping: Shaping,
@@ -33,7 +33,7 @@ where
     C: Chart<Message> + 'a,
 {
     /// create a new [`ChartWidget`]
-    pub fn new(chart: C) -> Self {
+    pub fn new(chart: &'a C) -> Self {
         Self {
             chart,
             width: Length::Fill,
@@ -122,7 +122,9 @@ where
         let bounds = layout.bounds();
         let canvas_event = match event {
             iced::Event::Mouse(mouse_event) => Some(canvas::Event::Mouse(*mouse_event)),
-            iced::Event::Keyboard(keyboard_event) => Some(canvas::Event::Keyboard(keyboard_event.clone())),
+            iced::Event::Keyboard(keyboard_event) => {
+                Some(canvas::Event::Keyboard(keyboard_event.clone()))
+            }
             _ => None,
         };
         if let Some(canvas_event) = canvas_event {
@@ -133,7 +135,7 @@ where
             if let Some(message) = message {
                 shell.publish(message);
             }
-            
+
             if event_status == iced::event::Status::Captured {
                 shell.capture_event();
             }
