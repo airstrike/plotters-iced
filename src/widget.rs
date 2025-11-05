@@ -19,9 +19,9 @@ use super::Chart;
 /// Chart container, turns [`Chart`]s to [`Widget`]s
 pub struct ChartWidget<'a, Message, C>
 where
-    C: Chart<Message>,
+    C: Chart<Message> + 'a,
 {
-    chart: &'a C,
+    chart: C,
     width: Length,
     height: Length,
     shaping: Shaping,
@@ -33,7 +33,7 @@ where
     C: Chart<Message> + 'a,
 {
     /// create a new [`ChartWidget`]
-    pub fn new(chart: &'a C) -> Self {
+    pub fn new(chart: C) -> Self {
         Self {
             chart,
             width: Length::Fill,
